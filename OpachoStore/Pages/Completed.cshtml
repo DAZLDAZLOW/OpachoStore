@@ -1,0 +1,44 @@
+﻿@page
+@model CompletedModel
+@using Microsoft.AspNetCore.Components;
+<p class="blockTitle">Информация о заказе</p>
+<div class="blockBody">
+    <h2>Спасибо за заказ!</h2>
+    <div class="completedText">
+        <p style="margin-bottom:0px;"> Это ваш уникальный код заказа:<br /><b> @Model.Order.OrderCode</b></p>
+        <p style="color:gray;">(Он также отправлен в SMS)</p>
+        <p>Курьер свяжется с вами в ближайшее время для уточнения деталей доставки</p>
+    </div>
+    <div class="completedTable">
+        <table class="table table-sm table-striped table-bordered">
+            <thead>
+                <tr><th colspan="5" class="text-center">Заказанные  товары</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                </tr>
+                @foreach (CartLine line in Model.Order.Lines)
+                {
+                    <tr>
+                        <td>@line.Product.Title</td>
+                        <td>@line.Quantity</td>
+                        <td>@line.Product.GetStringPrice()</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="2">Всего: </td>
+                    <td>@Model.Order.Lines.Sum(x => x.Product.Price).ToString("0") ₽</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="btnActive completedButton" asp-controller="Home">Вернуться в магазин</a>
+</div>
+@functions {
+    [BindProperty(SupportsGet = true)]
+    public string? OrderCode { get; set; }
+
+}

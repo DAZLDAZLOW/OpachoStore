@@ -1,0 +1,200 @@
+﻿@page "/admin/products"
+@page "/admin"
+@inherits OwningComponentBase<IStoreRepository>
+
+<h1 class="text-center">@TableName</h1>
+<div class="toolBar">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <label class="form-label">Категория товара</label>
+                <select class="form-select" @onchange="@(e => ChangeDisplayedTable((string?)e.Value))">
+                    <option value="">Все товары</option>
+                    @foreach (var s in ProductCategories)
+                    {
+                        <option value="@s">@s</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <label class="form-label">Поиск</label>
+                <input class="form-control" type="text" placeholder="Наименование" @oninput="@(e => FindByCode(((string)e.Value).Trim()))" />
+            </div>
+            <div class="col">
+                <label class="form-label m-1">Сортировать по</label>
+                <select class="form-select d-inline m-1" @onchange="@(e => SortBy(propertyName:(string)e.Value))">
+                    <option value="id">ID</option>
+                    <option value="title">Наименованию</option>
+                    <option value="cat">Категории</option>
+                    <option value="price">Стоимости</option>
+                </select>
+                <select class="form-select d-inline m-1" @onchange="@(e=> SortBy(inc:(string)e.Value))">
+                    <option value="true">По возрастанию</option>
+                    <option value="false">По убыванию</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center" colspan="5">@TableName</th>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <th>Наименование</th>
+            <th>Категория</th>
+            <th>Стоимость</th>
+            <td />
+        </tr>
+    </thead>
+    <tbody>
+        @if (ProductsToDisplay?.Count() > 0)
+        {
+            @foreach (Product p in ProductsToDisplay)
+            {
+                <tr>
+                    <td>@p.ProductID</td>
+                    <td>@p.Title</td>
+                    <td>@p.Category</td>
+                    <td>@p.GetStringPrice()</td>
+                    <td>
+                        <NavLink class="btn btn-info btn-sm"
+                         href="@GetDetailsUrl(p.ProductID ?? 0)">
+                            Подробнее
+                        </NavLink>
+                        <NavLink class="btn btn-warning btn-sm"
+                         href="@GetEditUrl(p.ProductID ?? 0)">
+                            Изменить
+                        </NavLink>
+                        <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteProduct(p))">
+                            Удалить
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">Нет товаров</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<NavLink class="btn btn-primary" href="/admin/products/create">Добавить</NavLink>
+
+@code {
+    public IStoreRepository Repository => Service;
+
+    public string TableName { get; set; } = "Товары";
+
+    public string CurrentCategory { get; set; } = "";
+
+    public string SortProperty { get; set; } = "id";
+
+    public bool SortIncrease { get; set; } = true;
+
+    public IEnumerable<Product> ProductData { get; set; }
+    = Enumerable.Empty<Product>();
+
+    public IEnumerable<Product> ProductsToDisplay { get; set; } = Enumerable.Empty<Product>();
+
+    public IEnumerable<string?> ProductCategories { get; set; } = Enumerable.Empty<string?>();
+
+    private void FindByCode(string code)
+    {
+        if (String.IsNullOrEmpty(code))
+        {
+            if (String.IsNullOrEmpty(CurrentCategory))
+            {
+                ProductsToDisplay = ProductData;
+            }
+            else
+            {
+                ProductsToDisplay = ProductData.Where(o => o.Category == CurrentCategory);
+            }
+        }
+        else
+            ProductsToDisplay = ProductData.Where(o => o.Title.ToLower().Contains(code.ToLower()) && (o.Category == CurrentCategory || CurrentCategory == ""));
+        SortBy();
+    }
+
+    private void ChangeDisplayedTable(string? categoryName)
+    {
+        if (String.IsNullOrEmpty(categoryName))
+        {
+            ProductsToDisplay = ProductData;
+            TableName = "Все товары";
+            CurrentCategory = "";
+        }
+        else
+        {
+            CurrentCategory = categoryName;
+            TableName = "Категория: " + categoryName;
+            ProductsToDisplay = ProductData.Where(p => p.Category == categoryName);
+        }
+        SortBy();
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+    public async Task UpdateData()
+    {
+        ProductData = await Repository.Products.ToListAsync();
+        ProductsToDisplay = ProductData;
+        ProductCategories = ProductData.Select(x => x.Category).Distinct();
+    }
+    public async Task DeleteProduct(Product p)
+    {
+        Repository.DeleteProduct(p);
+        await UpdateData();
+    }
+    public string GetDetailsUrl(long id) => $"/admin/products/details/{id}";
+    public string GetEditUrl(long id) => $"/admin/products/edit/{id}";
+
+    private void SortBy(string? propertyName = null, string? inc = null)
+    {
+        if (inc != null)
+        {
+            SortIncrease = (inc == "true");
+        }
+
+        if (propertyName != null)
+        {
+            SortProperty = (string)propertyName;
+        }
+        switch (SortProperty)
+        {
+            default:
+            case "id":
+                if (SortIncrease)
+                    ProductsToDisplay = ProductsToDisplay.OrderBy(o => o.ProductID);
+                else
+                    ProductsToDisplay = ProductsToDisplay.OrderByDescending(o => o.ProductID);
+                break;
+            case "title":
+                if (SortIncrease)
+                    ProductsToDisplay = ProductsToDisplay.OrderBy(o => o.Title);
+                else
+                    ProductsToDisplay = ProductsToDisplay.OrderByDescending(o => o.Title);
+                break;
+            case "cat":
+                if (SortIncrease)
+                    ProductsToDisplay = ProductsToDisplay.OrderBy(o => o.Category);
+                else
+                    ProductsToDisplay = ProductsToDisplay.OrderByDescending(o => o.Category);
+                break;
+            case "price":
+                if (SortIncrease)
+                    ProductsToDisplay = ProductsToDisplay.OrderBy(o => o.Price);
+                else
+                    ProductsToDisplay = ProductsToDisplay.OrderByDescending(o => o.Price);
+                break;
+        }
+    }
+}

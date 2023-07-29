@@ -1,0 +1,70 @@
+﻿@page
+@using System.Globalization;
+@model CartModel
+@{
+
+    ViewBag.Title = "Корзина";
+}
+
+<h2 class="blockTitle">Корзина</h2>
+<div class="blockBody cartBody" >
+    <table class="table table-bordered table-striped" style="border:solid 1px #dee2e6;text-align:initial;">
+        <thead>
+            <tr>
+                @if (HttpContext.Request.Headers["User-Agent"].Any(x => x.ToLower().Contains("mobi")))
+                {
+                    <th>Кол.</th>
+                }else{
+                <th>Количество</th>
+                }
+                @if (HttpContext.Request.Headers["User-Agent"].Any(x => x.ToLower().Contains("mobi")))
+                {
+                    <th>Наим.</th>
+                }else{
+                    <th>Наименование</th>
+                }
+                
+                <th class="text-right">Цена за шт.</th>
+                <th class="text-right">Общая стоимость</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model?.Cart?.Lines ?? Enumerable.Empty<CartLine>())
+            {
+                <tr>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-left"><a class="" asp-area="" asp-route-productId="@line.Product.ProductID" asp-controller="Products" asp-action="Product">@line.Product.Title</a></td>
+                    <td class="text-right">@line.Product.Price.ToString("c",new CultureInfo("ru-RU"))</td>
+                    <td class="text-right">
+                        @((line.Quantity * line.Product.Price).ToString("c", new CultureInfo("ru-RU")))
+                    </td>
+                    <td class="text-center">
+                        <form asp-page-handler="Remove" method="post">
+                            <input type="hidden" name="ProductId"
+                               value="@line.Product.ProductID" />
+                            <input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Убрать
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Всего:</td>
+                <td class="text-right">
+                    @Model?.Cart?.ComputeTotalValue().ToString("c", new CultureInfo("ru-RU"))
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="text-center">
+        <a class="btnPassive" href="@Model?.ReturnUrl">Вернуться</a>
+        <a class="btnActive" style="margin:20px;" asp-action="Checkout" asp-controller="Order">Оформить заказ</a>
+    </div>
+
+</div>

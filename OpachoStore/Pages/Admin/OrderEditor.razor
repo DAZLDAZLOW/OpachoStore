@@ -1,0 +1,147 @@
+﻿@page "/admin/orders/edit/{id:long}"
+@inherits OwningComponentBase<IStoreRepository>
+
+<style>
+    div.validation-message {
+        color: rgb(220, 53, 69);
+        font-weight: 500
+    }
+</style>
+<h3 class="bg-@ThemeColor text-white text-center p-1">@TitleText заказа</h3>
+<EditForm Model="Order" OnValidSubmit="SaveProduct">
+    <DataAnnotationsValidator />
+    @if (Order.OrderId != 0)
+    {
+        <div class="form-group">
+            <label>ID</label>
+            <input class="form-control" disabled value="@Order.OrderId" />
+        </div>
+        <div class="form-group">
+            <label>Код заказа</label>
+            <input class="form-control" disabled value="@Order.OrderCode" />
+        </div>
+    }
+    <div class="form-group">
+        <label>Ф.И.О. заказчика</label>
+        <ValidationMessage For="@(() => Order.Name)" />
+        <InputText class="form-control" @bind-Value="Order.Name" />
+    </div>
+    <div class="form-group">
+        <label>Номер телефона</label>
+        <ValidationMessage For="@(() => Order.Phone)" />
+        <InputText class="form-control" @bind-Value="Order.Phone" />
+    </div>
+    <div class="form-group">
+        <label>Адрес доставки</label>
+        <ValidationMessage For="@(() => Order.Phone)" />
+        <InputText class="form-control" @bind-Value="Order.Adress" />
+    </div>
+    <div class="form-group">
+        <label>Способ оплаты</label>
+        <InputSelect class="form-select" @bind-Value="PaymentTitle">
+            @{
+                var CurrentPaymentType = GetOrderPaymentType();
+                var PaymentTypes = GetPatmentTypes();
+                if (!(PaymentTypes == null || PaymentTypes?.Length == 0))
+                {
+                    //   <option selected value="@CurrentPaymentType.Title">@CurrentPaymentType.Title</option>
+                    for (int i = /*1*/ 0; i < PaymentTypes.Length; i++)
+                    {
+                        //  <option value="@PaymentTypes[i]">@PaymentTypes[i]</option>
+                        if (PaymentTypes[i] == Order.PaymentType.Title)
+                        {
+                            <option selected value="@PaymentTypes[i]">@PaymentTypes[i]</option>
+                        }
+                        else
+                        {
+                            <option value="@PaymentTypes[i]">@PaymentTypes[i]</option>
+                        }
+                    }
+                }
+            }
+        </InputSelect>
+    </div>
+    <div class="form-group">
+        <label>Статус заказа</label>
+        <InputSelect class="form-select" @bind-Value="StatusTitle">
+            @{
+                var CurrentStatus = GetOrderStatus();
+                var StatusTitles = GetStatuses();
+                if (!(StatusTitles == null || StatusTitles?.Length == 0))
+                {
+
+                    for (int i = 0; i < StatusTitles.Length; i++)
+                    {
+                        if (StatusTitles[i] == Order.Status.Title)
+                        {
+                            <option selected value="@StatusTitles[i]">@StatusTitles[i]</option>
+                        }
+                        else
+
+                        {
+                            <option value="@StatusTitles[i]">@StatusTitles[i]</option>
+                        }
+                    }
+                }
+            }
+        </InputSelect>
+    </div>
+    <div class="mt-2">
+        <button type="submit" class="btn btn-@ThemeColor">Сохранить</button>
+        <NavLink class="btn btn-secondary" href="/admin/orders">Отменить</NavLink>
+    </div>
+</EditForm>
+@code {
+    public IStoreRepository Repository => Service;
+    [Inject]
+    public NavigationManager? NavManager { get; set; }
+    [Parameter]
+    public long Id { get; set; } = 0;
+    public Order Order { get; set; } = new Order();
+    public string PaymentTitle { get; set; }
+    public string StatusTitle { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Id != 0)
+        {
+
+            Order = Repository.Orders.FirstOrDefault(p => p.OrderId == Id) ?? new();
+            PaymentTitle = Order.PaymentType.Title;
+            StatusTitle = Order.Status.Title;
+        }
+    }
+
+    public string?[] GetPatmentTypes()
+    {
+        return Repository.PaymentTypes.Select(x => x.Title).ToArray();
+    }
+
+    public string?[] GetStatuses()
+    {
+        return Repository.OrderStatuses.Select(x => x.Title).ToArray();
+    }
+
+    public PaymentType GetOrderPaymentType()
+    {
+        return Order.PaymentType;
+    }
+
+    public OrderStatus GetOrderStatus()
+    {
+       return Order.Status;
+    }
+
+    public void SaveProduct()
+    {
+        if (Id > 0)
+        {
+            Order.PaymentType = Repository.PaymentTypes.FirstOrDefault(x => x.Title == PaymentTitle);
+            Order.Status = Repository.OrderStatuses.FirstOrDefault(x => x.Title == StatusTitle);
+            Repository.SaveOrder(Order);
+        }
+        NavManager?.NavigateTo("/admin/orders");
+    }
+    public string ThemeColor => Id == 0 ? "primary" : "warning";
+    public string TitleText => Id == 0 ? "Создание" : "Редактирование";
+}

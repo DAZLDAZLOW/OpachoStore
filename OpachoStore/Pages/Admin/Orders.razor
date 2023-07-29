@@ -1,0 +1,157 @@
+﻿@page "/admin/orders"
+
+@inherits OwningComponentBase<IStoreRepository>
+<h1 class="text-center">Заказы</h1>
+<div class="toolBar">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <label class="form-label">Стаутус заказа</label>
+                <select class="form-select" @onchange="@(e => ChangeDisplayedTable((string?)e.Value))">
+                    <option value="">Все заказы</option>
+                    @foreach (var s in OrderStatuses)
+                    {
+                        <option value="@s">@s</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                 <label class="form-label">Поиск</label>
+                 <input class="form-control" type="text" placeholder="Код заказа" @oninput="@(e => FindByCode(((string)e.Value).Trim()))" />
+            </div>
+            <div class="col">
+                <label class="form-label m-1">Сортировать по</label>
+                <select class="form-select d-inline m-1" @onchange="@(e => SortBy(propertyName:(string)e.Value))">
+                    <option value="id">ID</option>
+                    <option value="ordercode">Коду заказа</option>
+                    <option value="paymenttype">Способу оплаты</option>
+                    <option value="price">Стоимости</option>
+                    <option value="createdat">Дате</option>
+                </select>
+                <select class="form-select d-inline m-1" @onchange="@(e=> SortBy(inc:(string)e.Value))">
+                    <option value="true">По возрастанию</option>
+                    <option value="false">По убыванию</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+   
+    
+</div>
+
+<OrderTable TableTitle="@TableName"
+            Orders="OrdersToDisplay" />
+
+<button class="btn btn-info" @onclick="@(e => UpdateData())">Обновить данные</button>
+
+@code {
+    public string? CurrentStatus { get; set; } = "";
+
+    public string SortProperty { get; set; } = "id";
+
+    public bool SortIncrease { get; set; } = true;
+
+    public IStoreRepository Repository => Service;
+    public IEnumerable<Order> AllOrders { get; set; } = Enumerable.Empty<Order>();
+
+    public string TableName { get; set; } = "Все заказы";
+
+    public IEnumerable<Order> OrdersToDisplay { get; set; } = Enumerable.Empty<Order>();
+    public IEnumerable<string?> OrderStatuses { get; set; } = Enumerable.Empty<string?>();
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+
+    public async Task UpdateData()
+    {
+        AllOrders = await Repository.Orders.ToListAsync();
+        OrdersToDisplay = AllOrders;
+        OrderStatuses = AllOrders.Select(o => o.Status.Title).Distinct().OrderBy(x => x);
+        ChangeDisplayedTable(CurrentStatus);
+        SortBy();
+    }
+
+    private void ChangeDisplayedTable(string? StatusName)
+    {
+        if (String.IsNullOrEmpty(StatusName))
+        {
+            OrdersToDisplay = AllOrders;
+            TableName = "Все заказы";
+            CurrentStatus = "";
+        }
+        else
+        {
+            CurrentStatus = StatusName;
+            TableName = "Статус: " + StatusName;
+            OrdersToDisplay = AllOrders.Where(o => o.Status.Title == StatusName);
+        }
+        SortBy();
+    }
+
+    private void FindByCode(string code)
+    {
+        if (String.IsNullOrEmpty(code))
+        {
+            if (String.IsNullOrEmpty(CurrentStatus))
+            {
+                OrdersToDisplay = AllOrders;
+            }
+            else
+            {
+                OrdersToDisplay = AllOrders.Where(o => o.Status.Title == CurrentStatus);
+            }
+        }
+        else
+            OrdersToDisplay = AllOrders.Where(o => o.OrderCode.ToString().Contains(code) && (o.Status.Title == CurrentStatus || CurrentStatus == ""));
+        SortBy();
+    }
+
+    private void SortBy(string? propertyName = null, string? inc = null)
+    {
+        if (inc != null)
+        {
+            SortIncrease = (inc == "true");
+        }
+
+        if (propertyName != null)
+        {
+            SortProperty = (string)propertyName;
+        }
+        switch (SortProperty)
+        {
+            default:
+            case "id":
+                if (SortIncrease)
+                    OrdersToDisplay = OrdersToDisplay.OrderBy(o => o.OrderId);
+                else
+                    OrdersToDisplay = OrdersToDisplay.OrderByDescending(o => o.OrderId);
+                break;
+            case "ordercode":
+                if (SortIncrease)
+                    OrdersToDisplay = OrdersToDisplay.OrderBy(o => o.OrderCode);
+                else
+                    OrdersToDisplay = OrdersToDisplay.OrderByDescending(o => o.OrderCode);
+                break;
+            case "paymenttype":
+                if (SortIncrease)
+                    OrdersToDisplay = OrdersToDisplay.OrderBy(o => o.PaymentType.Title);
+                else
+                    OrdersToDisplay = OrdersToDisplay.OrderByDescending(o => o.PaymentType.Title);
+                break;
+            case "price":
+                if (SortIncrease)
+                    OrdersToDisplay = OrdersToDisplay.OrderBy(o => o.Lines.Sum(p => p.Product.Price));
+                else
+                    OrdersToDisplay = OrdersToDisplay.OrderByDescending(o => o.Lines.Sum(p => p.Product.Price));
+                break;
+            case "createdat":
+                if (SortIncrease)
+                    OrdersToDisplay = OrdersToDisplay.OrderBy(o => o.CreatedAt);
+                else
+                    OrdersToDisplay = OrdersToDisplay.OrderByDescending(o => o.CreatedAt);
+                break;
+        }
+    }
+}

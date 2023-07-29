@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OpachoStore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OpachoStore.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared.css" />
+</head>
+<body style="background-color:#E3E3E3;">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">OpachoStore</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="Index">Каталог</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">О нас</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Track">Отслеживание</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="GetPriceList" download="прайслист.pdf" target="_blank">Прайслист</a>
+                        </li>
+                    </ul>
+                    <div class="">
+                        <div class="input-group">
+                            <form asp-controller="Products" method="get" asp-action="SearchProducts">
+                                <input type="search" class="form-control rounded navbar-search" placeholder="Поиск" name="searchQuery" aria-label="Search" aria-describedby="search-addon" />
+
+                                <button type="submit" class="navbar-search-btn">Найти</button>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="navbar-cart">
+                        <a asp-page="/Cart" asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                            <img src="~/images/CartIcon.png" class="navbar-cart-icon" />
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div style="margin-top:10px;">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer bg-dark text-muted" style="    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;">
+        <div class="container">
+            &copy; 2022 - OpachoStore
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

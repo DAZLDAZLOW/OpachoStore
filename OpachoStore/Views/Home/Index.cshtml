@@ -1,0 +1,62 @@
+﻿@model MainPageViewModel
+@{
+    ViewData["Title"] = "Главная";
+}
+<p class="mainTitleText">Добро пожаловать в OpachoStore</p>
+<div class="">
+    <div class="mainButtons">
+        <div class="container">
+            <div class="row">
+                <div class="col ">
+                    <a asp-controller="Home" asp-action="Track" class="mainNavButton">Отслеживание</a>
+                </div>
+                <div class="col">
+                    <a asp-controller="Products" asp-action="Index" class="mainNavButton">Каталог</a>
+                </div>
+                <div class="col ">
+                    <a asp-controller="Home" asp-action="Privacy" class="mainNavButton">О компании</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blockTitle mainBlockMargin" style="margin-top:30px;">Популярные категории</div>
+    <div class="blockBody mainBlockMargin">
+        <div class="container">
+            <div class="row">
+                @foreach (var cat in Model.HighlightedCategories)
+                {
+                    <div class="col">
+                        <a style="text-decoration:none;" class=""
+                           asp-action="Index" asp-controller="Products"
+                           asp-route-category="@cat.Name"
+                           asp-route-productPage="1">
+                            <div class="popularCat">
+                                <img class="popularPhoto" src="~/images/@cat.ImageUrl" alt="">
+                                <p class="popularCatTitle text-center">@cat.Name</p>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="blockTitle mainBlockMargin " style="margin-top:30px;font-size:24pt;">Популярные товары</div>
+    <div class="blockBody mainBlockMargin">
+        <div class="container">
+            <div class="row">
+                @foreach (Product p in Model.HighlightedProducts.Take(4))
+                {
+                    <div class="col">
+                        <partial name="PopularProductSummary" model="@p" />
+                    </div>
+                }
+                @foreach (Product p in Model.HighlightedProducts.Skip(4).Take(4))
+                {
+                    <div class="col">
+                        <partial name="PopularProductSummary" model="@p" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

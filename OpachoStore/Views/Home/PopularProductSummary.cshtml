@@ -1,0 +1,7 @@
+﻿@model Product
+<a style="text-decoration:none;" asp-area="" asp-route-productId="@Model.ProductID" asp-controller="Products" asp-action="Product">
+    <div class="popularItem">
+        <img class="popularPhoto" src="~/images/@Model.ImageUrl" alt="">
+        <div class="popularTitle" style="text-decoration:none;">@Model.Title</div>
+    </div>
+</a>

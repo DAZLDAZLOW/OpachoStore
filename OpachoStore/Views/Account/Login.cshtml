@@ -1,0 +1,47 @@
+﻿@model LoginModel
+@{
+    Layout = null;
+    ViewBag.Title = "Авторизация";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OpachoStore</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/shared.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="bg-dark text-white p-2">
+        <span class="navbar-brand ml-2">OpachoStore</span>
+    </div>
+    <div style="margin-top:20px;width:50%; margin-left:25%">
+        <div class="blockTitle">Авторизация</div>
+        <div class="blockBody">
+            <div class="text-danger validation" asp-validation-summary="All"></div>
+            <form asp-action="Login" asp-controller="Account" method="post">
+                <input type="hidden" asp-for="ReturnUrl" />
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" asp-for="Name"></label>
+
+                    <div class="col-sm-10">
+                        <div asp-validation-for="Name" class="text-danger"></div>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" asp-for="Password"></label>
+                    <div class="col-sm-10">
+                        <div asp-validation-for="Password" class="text-danger"></div>
+                        <input asp-for="Password" type="password" class="form-control" />
+                    </div>
+                </div>
+
+                <a class="btnPassive" asp-area="" asp-controller="Home" asp-action="Index">На главную</a>
+                <button class="btnActive" type="submit">Войти</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+﻿@using System.Text;
+@model ProductListViewModel
+
+@{
+    string searchReq = ViewBag.SearchRequest;
+    string PageTitle = "Поиск";
+    if (Model.Products.Count() > 0)
+    {
+        PageTitle = $"По запросу '{searchReq}' найдено {Model.Products.Count()} товара";
+    }
+    else
+    {
+        PageTitle = $"К сожалению, по запросу '{searchReq}' ничего не найдено";
+    }
+
+    ViewBag.Title = "Поиск";
+}
+
+<p id="categoryPageTitle">@PageTitle</p>
+
+<div class="container">
+    <div class="col">
+        @foreach (Product p in Model?.Products ?? Enumerable.Empty<Product>())
+        {
+            <div class="row catalogItem">
+                <partial name="CatalogItemSummary" model="p" />
+            </div>
+        }
+        <div class="row">
+            <div class="pageNavigationBlock" style="border-radius:10px;width:95%;">
+                <div page-model="@Model?.PagingInfo" page-action="Index" page-classes-enabled="true"
+                     page-class="btn pageBtn" page-class-normal="btn-outline-dark pageBtnNormal"
+                     page-class-selected="btn-primary pageBtnSelected" page-url-category="@Model?.CurrentCategory!" class="btn-group pull-right m-1">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

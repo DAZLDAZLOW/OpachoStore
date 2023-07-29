@@ -1,0 +1,65 @@
+﻿@model Order
+@{
+    ViewBag.Title = "Отслеживание";
+}
+<div class="trackPageBody">
+    <p class="blockTitle">
+        Отслеживание заказа
+    </p>
+    <div class="blockBody">
+        @if (ViewBag.NotFound ?? false)
+        {
+            <p class="text-danger" style="font-size:14pt;">Заказ не найден</p>
+        }
+        <form asp-controller="Home" asp-action="Track" method="get">
+            <label for="codeInput" class="form-label" style="text-align:left; width:100%;font-size:18pt;">Код заказа</label>
+            @if (Model == null)
+            {
+                <input id="codeInput" class="form-control" asp-for="OrderCode" />
+            }
+            else
+            {
+                <input id="codeInput" class="form-control" asp-for="OrderCode" value="@Model.OrderCode" />
+            }
+
+            <a class="btnPassive" asp-controller="Home" asp-action="Index">На главную</a>
+            <input class="btnActive" type="submit" style="margin:20px;text-align:center;" value="Отследить" />
+        </form>
+    </div>
+
+    @if (Model != null)
+    {
+        <p class="blockTitle">Информация о заказе</p>
+        <div class="blockBody" style="font-size:18pt;text-align:left;padding:20px;">
+            <p>Код : <span style="font-weight:bold;">@Model.OrderCode</span></p>
+            <p>Статус : <span style="color:green;">@Model.Status.Title</span></p>
+
+            <div style="text-align:left; font-size:14pt;">
+                <table class="table table-sm table-striped table-bordered">
+                    <thead>
+                        <tr><th colspan="5" class="text-center">Заказанные  товары</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Товар</th>
+                            <th>Количество</th>
+                            <th>Стоимость</th>
+                        </tr>
+                        @foreach (CartLine line in Model.Lines)
+                        {
+                            <tr>
+                                <td>@line.Product.Title</td>
+                                <td>@line.Quantity</td>
+                                <td>@line.Product.GetStringPrice()</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="2">Всего: </td>
+                            <td>@Model.Lines.Sum(x => x.Product.Price).ToString("0") ₽</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

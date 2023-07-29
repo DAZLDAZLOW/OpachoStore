@@ -1,0 +1,183 @@
+﻿@using System.Text;
+@model ProductListViewModel
+
+@{
+    string PageTitle = "Каталог товаров";
+    ViewBag.Title = "Каталог";
+    if (Model?.CurrentCategory != null)
+    {
+        PageTitle = Model.CurrentCategory;
+    }
+}
+
+<p id="categoryPageTitle">@PageTitle</p>
+
+<div class="container" style="max-width:100%">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+        <div class="col catalogCategoryPicker">
+            <p class="blockTitle" style="margin-top:20px;">Категории</p>
+            <div class="blockBody">
+                <vc:navigation-menu />
+            </div>
+            @if (ViewBag.IsMobile)
+            {
+                <div class="filters" style="margin-top:20px;">
+
+                    <p class="blockTitle">Фильтры</p>
+
+                    <div class="blockBody" style="margin-bottom:0px;">
+                        <form asp-controller="Products" method="get" asp-action="Index">
+                            <p class="filterTitle">Цена</p>
+                            <div class="container" style="width:100%; margin:0px; padding:0px;">
+                                <div class="row" style="height:auto;">
+                                    <div class="col">
+                                        <p style="text-align:left;margin-bottom:2px;">От:</p>
+                                    </div>
+                                    <div class="col">
+                                        <p style="text-align:left;margin-bottom:2px;">До:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input class="form-control" type="number" min="0" value="@Model.CurrentMinPrice" max="@Model.MaxPrice" name="priceStarts" />
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="number" min="@Model.MinPrice" value="@Model.CurrentMaxPrice" max="@Model.MaxPrice" name="priceEnds" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="filterTitle">Сортировать</p>
+                            <select class="form-select" name="sortName">
+                                @if (Model.CurrentSortName == "titleinc")
+                                {
+                                    <option selected value="titleinc">По названию  ↑</option>
+                                }
+                                else
+                                {
+                                    <option value="titleinc">По названию  ↑</option>
+                                }
+                                @if (Model.CurrentSortName == "titledec")
+                                {
+                                    <option selected value="titledec">По названию  ↓</option>
+                                }
+                                else
+                                {
+                                    <option value="titledec">По названию  ↓</option>
+                                }
+                                @if (Model.CurrentSortName == "priceinc")
+                                {
+                                    <option selected value="priceinc">По стоимости  ↑</option>
+                                }
+                                else
+                                {
+                                    <option value="priceinc">По стоимости  ↑</option>
+                                }
+                                @if (Model.CurrentSortName == "pricedec")
+                                {
+                                    <option selected value="pricedec">По стоимости  ↓</option>
+                                }
+                                else
+                                {
+                                    <option value="pricedec">По стоимости  ↓</option>
+                                }
+                            </select>
+                            <input type="submit" value="Применить" class="btnActive" style="margin-top:10px;margin-left:0px;" />
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col catalogList">
+            @foreach (Product p in Model?.Products ?? Enumerable.Empty<Product>())
+            {
+                <div class="row catalogItem">
+                    <partial name="CatalogItemSummary" model="p" />
+                </div>
+            }
+            <div class="row catalogPagesAndPagesizes">
+                <div class="pageSizePicker">
+                    <p class="pageSizePickerText">Размер страницы:</p>
+                    <a class="pageSizePickerItem @(Model.PagingInfo.ItemsPerPage ==5?"pageSizePickerItemHighlighted":"") " href="@(Context.Request.Path + "?pageSize=5")">5</a>
+                    <a class="pageSizePickerItem @(Model.PagingInfo.ItemsPerPage ==10?"pageSizePickerItemHighlighted":"")" href=" @(Context.Request.Path + "?pageSize=10")">10</a>
+                    <a class="pageSizePickerItem @(Model.PagingInfo.ItemsPerPage ==20?"pageSizePickerItemHighlighted":"")" href=" @(Context.Request.Path + "?pageSize=20")">20</a>
+                </div>
+                <div class="pageNavigationBlock">
+
+                    <div page-model="@Model?.PagingInfo" page-action="Index" page-classes-enabled="true"
+                         page-class="btn pageBtn" page-class-normal="btn-outline-dark pageBtnNormal"
+                         page-class-selected="btn-primary pageBtnSelected" page-url-category="@Model?.CurrentCategory!" class="btn-group pull-right m-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (ViewBag.IsMobile == false)
+        {
+            <div class="col catalogFilterPicker">
+                <div class="filters" style="margin-top:20px;">
+                    <p class="blockTitle">Фильтры</p>
+                    <div class="blockBody">
+                        <form asp-controller="Products" method="get" asp-action="Index">
+                            <p class="filterTitle">Цена</p>
+                            <div class="container" style="width:100%; margin:0px; padding:0px;">
+                                <div class="row" style="height:auto;">
+                                    <div class="col">
+                                        <p style="text-align:left;margin-bottom:2px;">От:</p>
+                                    </div>
+                                    <div class="col">
+                                        <p style="text-align:left;margin-bottom:2px;">До:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input class="form-control" type="number" min="0" value="@Model.CurrentMinPrice" max="@Model.MaxPrice" name="priceStarts" />
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="number" min="@Model.MinPrice" value="@Model.CurrentMaxPrice" max="@Model.MaxPrice" name="priceEnds" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="filterTitle">Сортировать</p>
+                            <select class="form-select" name="sortName">
+                                @if (Model.CurrentSortName == "titleinc")
+                                {
+                                    <option selected value="titleinc">По названию  ↑</option>
+                                }
+                                else
+                                {
+                                    <option value="titleinc">По названию  ↑</option>
+                                }
+                                @if (Model.CurrentSortName == "titledec")
+                                {
+                                    <option selected value="titledec">По названию  ↓</option>
+                                }
+                                else
+                                {
+                                    <option value="titledec">По названию  ↓</option>
+                                }
+                                @if (Model.CurrentSortName == "priceinc")
+                                {
+                                    <option selected value="priceinc">По стоимости  ↑</option>
+                                }
+                                else
+                                {
+                                    <option value="priceinc">По стоимости  ↑</option>
+                                }
+                                @if (Model.CurrentSortName == "pricedec")
+                                {
+                                    <option selected value="pricedec">По стоимости  ↓</option>
+                                }
+                                else
+                                {
+                                    <option value="pricedec">По стоимости  ↓</option>
+                                }
+                            </select>
+                            <input type="submit" value="Применить" class="btnActive" style="margin-top:10px;margin-left:0px;" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

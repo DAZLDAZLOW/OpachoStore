@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "О нас";
+}
+<div id="about">
+    <h1 class="display-1 AboutTitle" style="padding-top:0px;">О нас</h1>
+    <div class="AboutBlock">
+        <p class="AboutText">
+            Наш магазин компьютерных комплектующих был основан в 2020 году с целью предоставления высококачественных комплектующих и услуг нашим клиентам.
+            Наш интернет-магазин является лидером в онлайн-продаже компьютерных комплектующих. Мы предлагаем широкий ассортимент продуктов высокого качества от ведущих производителей.
+        </p>
+
+        <p class="AboutText">
+            Наша цель – обеспечить каждого клиента лучшими продуктами и услугами. Мы работаем только с проверенными поставщиками, чтобы гарантировать качество и доступность товаров.
+
+            Мы предлагаем удобный интерфейс для поиска и выбора продуктов, а также быструю доставку и оптимальные условия оплаты. Наша команда квалифицированных специалистов всегда готова предоставить консультацию и помощь в выборе продуктов.
+        </p>
+    </div>
+    <h1 class="display-1 AboutTitle">Наши преимущества</h1>
+    <div class="AboutBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img class="BestsImg" src="~/images/bestsPrice.png" />
+                    <p class="BestsText">Низкие цены</p>
+                </div>
+                <div class="col">
+                    <img class="BestsImg" src="~/images/bestsGoods.png" />
+                    <p class="BestsText">Широкий ассортимент товаров</p>
+                </div>
+                <div class="col">
+                    <img class="BestsImg" src="~/images/bestsEmployee.png" />
+                    <p class="BestsText">Опытные сотрудники</p>
+                </div>
+                <div class="col">
+                    <img class="BestsImg" src="~/images/bestsDelivery.png" />
+                    <p class="BestsText">Быстрая доставка</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="display-1 AboutTitle">Наша команда</h1>
+    <div class="AboutBlock">
+        <div class="container">
+            <div class="row row-cols-sm-2 row-cols-md-4">
+                <div class="col">
+                    <div class="EmployeeCard">
+                        <img src="~/images/Employee1.jpg" />
+                        <p>Комаров Сергей Кириллович</p>
+                        <p class="Position">Директор</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="EmployeeCard">
+                        <img src="~/images/Employee2.jpg" />
+                        <p>Морозов Адам Иванович</p>
+                        <p class="Position">Менеджер</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="EmployeeCard">
+                        <img src="~/images/Employee3.jpg" />
+                        <p>Чернов Артём Семёнович</p>
+                        <p class="Position">Курьер</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="EmployeeCard">
+                        <img src="~/images/Employee4.jpg" />
+                        <p>Матрос Максим Сергеевич</p>
+                        <p class="Position">Разработчик</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="display-1 AboutTitle">Контактная информация:</h1>
+    <div class="AboutBlock" id="ContactsBlock">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p id="ContactInfo">
+                        Адрес: Ростовская область, г. Ростов-на-Дону, проспект Ленина, 107 <br />
+                        Электронная почта: @ViewBag.Email <br />
+                        Номер телефона: @ViewBag.Phone <br />
+                    </p>
+                </div>
+                <div class="col">
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A4f25ed8186a1f3b1f3f51f81002f0186352be3deebe898caef67811a87f099a4&amp;lang=ru_RU&amp;scroll=true"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

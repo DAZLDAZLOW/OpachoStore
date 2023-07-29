@@ -1,0 +1,114 @@
+﻿@page "/admin/products/edit/{id:long}"
+@page "/admin/products/create"
+@inherits OwningComponentBase<IStoreRepository>
+
+<style>
+    div.validation-message {
+        color: rgb(220, 53, 69);
+        font-weight: 500
+    }
+</style>
+<h3 class="bg-@ThemeColor text-white text-center p-1">@TitleText товара</h3>
+<EditForm Model="Product" OnValidSubmit="SaveProduct">
+    <DataAnnotationsValidator />
+    @if (Product.ProductID != 0)
+    {
+        <div class="form-group">
+            <label>ID</label>
+            <input class="form-control" disabled value="@Product.ProductID" />
+        </div>
+    }
+    <div class="form-group">
+        <label>Наименование</label>
+        <ValidationMessage For="@(() => Product.Title)" />
+        <InputText class="form-control" @bind-Value="Product.Title" />
+    </div>
+    <div class="form-group">
+        <label>Описание</label>
+        <ValidationMessage For="@(() => Product.Description)" />
+        <InputTextArea class="form-control" @bind-Value="Product.Description" />
+    </div>
+    <div class="form-group">
+        <label>Изображение:</label>
+        @if (Product.ImageUrl != null)
+        {
+            <img class="ProductEditorImage" src="images/@Product.ImageUrl" />
+        }
+        <ValidationMessage For="@(() => Product.Description)" />
+        <InputFile class="form-control" OnChange="@LoadFiles" />
+    </div>
+    <div class="form-group">
+        <label>Категория</label>
+        <ValidationMessage For="@(() => Product.Category)" />
+        <InputText class="form-control" @bind-Value="Product.Category" />
+    </div>
+    <div class="form-group">
+        <label>Стоимость</label>
+        <ValidationMessage For="@(() => Product.Price)" />
+        <InputNumber class="form-control" @bind-Value="Product.Price" />
+    </div>
+    <div class="mt-2">
+        <button type="submit" class="btn btn-@ThemeColor" disabled="@CanSaveProps">Сохранить</button>
+        <NavLink class="btn btn-secondary" href="/admin/products">Отменить</NavLink>
+    </div>
+</EditForm>
+
+<div style="margin-top:20px;">
+    <h4 class="">Характеристики </h4>
+    <SpecificationEditor Product="Product" @bind-CanSaveProps="CanSaveProps" @bind-Props="Props" />
+</div>
+
+@code {
+    public IStoreRepository Repository => Service;
+    [Inject]
+    public NavigationManager? NavManager { get; set; }
+    [Parameter]
+    public long Id { get; set; } = 0;
+    public Product Product { get; set; } = new Product();
+
+    bool CanSaveProps { get; set; } = false;
+    ICollection<Property> Props { get; set; }
+    protected override void OnParametersSet()
+    {
+        if (Id != 0)
+        {
+            Product = Repository.Products.Include(x => x.Properties).ThenInclude(p => p.Specification).FirstOrDefault(p => p.ProductID == Id)
+            ?? new();
+            Props = Product.Properties;
+        }
+        else
+        {
+            Props = new List<Property>();
+        }
+    }
+    public void SaveProduct()
+    {
+        if (Id == 0)
+        {
+            foreach (var p in Props)
+            {
+                if (Repository.Specifications.Any(x => x.Title == p.Specification.Title))
+                {
+                    p.Specification = Repository.Specifications.First(x => x.Title == p.Specification.Title);
+                }
+            }
+            Product.Properties = Props;
+            Repository.CreateProduct(Product);
+        }
+        else
+        {
+            Product.Properties = Props;
+            Repository.SaveProduct(Product);
+        }
+        NavManager?.NavigateTo("/admin/products");
+    }
+    public string ThemeColor => Id == 0 ? "primary" : "warning";
+    public string TitleText => Id == 0 ? "Добавление" : "Редактирование";
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        await using FileStream fs = new FileStream("wwwroot/images/" + e.File.Name, FileMode.Create);
+        await e.File.OpenReadStream(20971520).CopyToAsync(fs);
+        Product.ImageUrl = e.File.Name;
+    }
+}

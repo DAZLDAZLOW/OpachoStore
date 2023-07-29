@@ -1,0 +1,59 @@
+﻿<table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr><th colspan="6" class="text-center">@TableTitle</th></tr>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Код заказа</th>
+            <th class="text-center">Способ оплаты</th>
+            <th class="text-center">Стоимость, руб.</th>
+            <th class="text-center">Дата</th>
+            <th class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Orders?.Count() > 0)
+        {
+            @foreach (Order o in Orders)
+            {
+                <tr>
+                    <td>@o.OrderId</td>
+                    <td>@o.OrderCode</td>
+                    <td>@o.PaymentType.Title</td>
+                    <td>@GetTotalPrice(o)</td>
+                    <td>@o.GetDateString()</td>
+                    <td>
+                        <NavLink class="btn btn-info btn-sm"
+                         href="@GetDetailsUrl(o.OrderId)">
+                            Подробнее
+                        </NavLink>
+                        <NavLink class="btn btn-warning btn-sm"
+                         href="@GetEditUrl(o.OrderId)">
+                            Изменить
+                        </NavLink>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="5" class="text-center">Нет заказов</td></tr>
+        }
+    </tbody>
+</table>
+
+@code {
+        [Parameter]
+        public string TableTitle { get; set; } = "Заказы";
+        [Parameter]
+        public IEnumerable<Order> Orders { get; set; } = Enumerable.Empty<Order>();
+
+        public string GetDetailsUrl(long id) => $"/admin/orders/details/{id}";
+
+        public string GetEditUrl(long id) => $"/admin/orders/edit/{id}";
+
+        private string GetTotalPrice(Order order)
+        {
+            var result = order.Lines.Sum(l => (l.Quantity * l.Product.Price));
+            return result.ToString();
+        }
+}

@@ -1,0 +1,53 @@
+﻿@using System.Text;
+@model Product
+@{
+    ViewBag.Title = Model.Title;
+}
+<div class="productPageBody">
+    <p class="blockTitle">@Model.Title</p>
+    <div class="blockBody" style="text-align:left;">
+        <div class="container" style="background-color:white;border-radius:10px; padding:20px;">
+            <div class="row">
+                <div class="col">
+                    <img class="productPageImage" src="~/images/@Model.ImageUrl" alt="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-8">
+                    <p class="productPageDescriptionTitle">Описание</p>
+                    <p class="productPageDescription">@Model.Description</p>
+
+                    <div class="col">
+                        <div class="productPagePriceAndButton">
+                            <p class="catalogItemPrice">@Model.GetStringPrice()</p>
+                            <form class="d-inline" id="@Model?.ProductID" asp-page="/Cart" method="post">
+                                <input type="hidden" asp-for="ProductID" />
+                                <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                <button type="submit" class="btnActive catalogItemButton">
+                                    Купить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="blockTitle">Характеристики</p>
+    <div class="blockBody" style="background-color:white;padding:0px;text-align:left;">
+        <div class="productPageTable">
+            <table class="table table-striped" style="margin-bottom:0px;">
+                <tbody>
+                    @foreach (var prop in Model.Properties)
+                    {
+                        <tr>
+                            <td>@prop.Specification.Title</td>
+                            <td>@prop.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

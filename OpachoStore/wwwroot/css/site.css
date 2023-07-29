@@ -1,0 +1,1019 @@
+
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.mainTitleText {
+    line-height: 90px;
+    height: 100px;
+    text-align: center;
+    margin: 30px;
+    font-size: 32pt;
+    font-weight: bold;
+    color: black;
+    width: 78%;
+    margin-left: 11%;
+}
+
+
+.popularCat {
+    
+    border-radius: 20px;
+    padding: 10px;
+    
+}
+
+    .popularCat:hover {
+        background-color: #5e5e5e38;
+    }
+
+.popularItem {
+    border-radius: 20px;
+    padding: 10px;
+    
+}
+
+    .popularItem:hover {
+        background-color: #5e5e5e38;
+    }
+
+.mainButtons {
+    width: 80%;
+    margin-left: 10%;
+    text-align: center;
+}
+
+.mainBlockMargin{
+    width:80%;
+    margin-left:10%;
+}
+
+.mainNavButton {
+    border: 10px inset black;
+    width: 80%;
+    height: 100px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24pt;
+    text-decoration: none;
+    border-radius: 100px;
+    color: black;
+    font-weight: 600;
+}
+
+    .mainNavButton:hover {
+        background-color: #000000cf;
+        color: white;
+    }
+
+    .mainNavButton:active{
+        background-color:gray;
+        color:white;
+    }
+
+    .container_slider_css {
+        margin: 50px auto;
+        width: 1000px;
+        height: 400px;
+        overflow: hidden;
+        position: relative
+    }
+
+.photo_slider_css {
+    position: absolute;
+    animation: round 12s infinite;
+    opacity: 0;
+    width: 100%;
+    top:0px;
+    left:0px;
+}
+
+@keyframes round {
+    25% {
+        opacity: 1
+    }
+
+    40% {
+        opacity: 0
+    }
+}
+
+img:nth-child(1) {
+    animation-delay: 8s
+}
+
+img:nth-child(2) {
+    animation-delay: 4s
+}
+
+img:nth-child(3) {
+    animation-delay: 0s
+}
+
+img:nth-child(4) {
+    animation-delay: 0
+}
+
+@media(min-width:0px) and (max-width:320px) {
+    .container_slider_css {
+        width: 80%;
+        height: 190px
+    }
+}
+
+@media(min-width:321px) and (max-width:480px) {
+    .container_slider_css {
+        width: 80%;
+        height: 190px
+    }
+}
+
+.popularPhoto{
+    width:250px;
+    height:250px;
+}
+
+.popularTitle {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 14pt;
+    text-align: center;
+    color: black;
+    text-decoration:none!important;
+    text-decoration-style:unset;
+    text-decoration-thickness:0px;
+}
+
+.popularCatTitle {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 18pt;
+    text-align: center;
+    color: black;
+    text-decoration: none !important;
+    text-decoration-style: unset;
+    text-decoration-thickness: 0px;
+}
+
+.popularPrice {
+    margin-right: 10px;
+    margin-bottom: 4px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+.catalogCategoryPicker{
+    max-width:350px;
+}
+
+.catalogList{
+    width:65%;
+}
+
+.catalogFilterPicker{
+    max-width:300px;
+}
+
+.catalogItemPreview {
+    width: 250px;
+    height: 250px;
+}
+
+.catalogItemImage{
+    width:300px;
+}
+
+.catalogItemDescriptionAndPrice {
+    width:70%;
+}
+
+.catalogItem {
+    margin: 20px;
+    border-radius: 20px;
+    background-color:rgb(255, 255, 255);
+    padding:20px;
+}
+
+.catalogItemTitle{
+    font-weight:600;
+    font-size:16pt;
+    color:black;
+    text-decoration:none;
+}
+
+.catalogItemPrice {
+    font-size: 20pt;
+    font-weight: bold;
+    margin-top: 0px;
+    text-align: center;
+    display: inline;
+    width:100%;
+}
+
+.catalogItemButton{
+    font-size:14pt;
+    width:150px;
+    height:44px;
+}
+
+.catalogItemDescription {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size:13pt;
+    width: 90%;
+}
+
+.catlogItemPriceAndButton{
+    width:30%;
+    margin-left:70%;
+}
+
+#categoryBlockTitle {
+    font-size: 14pt;
+    margin: 10px;
+}
+
+#categoryPageTitle{
+    text-align:center;
+    font-size:40pt;
+    font-weight:400;
+}
+
+.pageBtn {
+    border-block-color: transparent;
+    font-size: 15pt;
+    border-color: transparent;
+}
+
+.pageBtnNormal {
+    border-block-color: transparent;
+    color: #8c8c8c;
+    border-color: transparent;
+}
+
+.pageBtnSelected {
+    color: #8c8c8c;
+    background-color:transparent;
+    border-block-color: transparent;
+    border-color: black;
+}
+
+.pageNavigationBlock {
+    background-color: white;
+    margin-left:27px;
+    width: 95%;
+    text-align: center;
+    border-radius:0px 10px 10px 10px;
+    
+}
+
+.pageSizePickerText{
+    display:inline;
+}
+
+.pageSizePicker {
+    background-color: white;
+    margin-left: 27px;
+    padding: 10px;
+    border-radius: 10px 10px 0px 0px;
+    width: 230px;
+    font-size: 13pt;
+}
+
+.pageSizePickerItem{
+    text-decoration:none;
+    
+}
+
+.pageSizePickerItemHighlighted{
+    font-size:13.5pt;
+    font-weight:600;
+}
+
+.pageSizePickerItem:hover {
+    text-decoration: underline;
+}
+
+.productPagePriceAndButton{
+
+}
+
+.productPageBody {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.productPageImage {
+    width: 400px;
+    height: 400px;
+}
+
+.productPageDescriptionTitle{
+    font-weight:500;
+    font-size:18pt;
+}
+
+.productPageDescription{
+    font-size:12pt;
+}
+
+.productPageTable {
+    border-radius: 10px;
+    
+    
+}
+
+.productPagePrice {
+    font-size: 20pt;
+    font-weight: bold;
+    margin-left: 80%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.productPageButton {
+    margin-left: 80%;
+    font-size: 14pt;
+    width: 150px;
+    height: 44px;
+}
+
+.navButSelected{
+    background-color:green;
+}
+/* Страница О нас*/
+.AboutTitle {
+    background: #212529;
+    color: white;
+    padding-bottom: 10px;
+    padding-top: 7px;
+    border-radius: 10px 10px 0px 0px;
+    margin-bottom:0px;
+    font-size:20px;
+}
+
+.AboutBlock{
+    margin-top:0px;
+    padding:10px;
+    background-color:white;
+    border-radius:0px 0px 10px 10px;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.AboutText{
+    text-align:left;
+    font-size:14pt;
+    text-indent:30pt;
+    margin-bottom:0px;
+}
+
+.AboutBlock li{
+    text-align:left;
+    font-weight:400;
+    font-size:20px;
+}
+
+.BestsImg {
+    width: 150px;
+    margin-top:20px;
+}
+
+.BestsText{
+    font-size:20px;
+    font-weight:600;
+    text-align:center;
+}
+
+#about {
+    text-align: center;
+    padding: 40px;
+    max-width:80%;
+    margin-left:10%;
+}
+
+    #about h1 {
+        font-size: 24pt;
+        margin-bottom: 0px;
+        font-weight:400;
+    }
+
+    #about h2 {
+        font-size: 24px;
+        margin-top: 40px;
+
+    }
+
+
+.EmployeeCard {
+    padding: 20px;
+    border-radius: 10px;
+    /*background-color: #577f2e;*/
+    background-color: #414448;
+    height: 400px;
+    color: white;
+    margin:10px;
+}
+
+    .EmployeeCard img {
+        width: 200px;
+        height: 200px;
+        border-radius: 150px;
+        border: 2px solid white;
+    }
+
+.EmployeeCard p{
+    font-size:16pt;
+    font-weight:500;
+}
+
+.EmployeeCard .Position{
+    font-weight:300;
+}
+
+#ContactInfo{
+    text-align:left;
+    font-size:18pt;
+}
+
+#ContactsBlock iframe{
+    width:500px;
+    height:400px;
+}
+
+/* Навигационное меню*/
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(255, 255, 255, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+.navbar-light .navbar-toggler{
+    border-color:rgba(255,255,255,0.55);
+    background-color:rgba(255,255,255,0.1)
+}
+
+.navbar-search {
+    width: 400px;
+    display: inline;
+}
+
+.navbar-search-btn {
+    margin-bottom: 5px;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    background-color: rgb(255, 255, 255, 0.1);
+    border-color: white;
+    border-width:2px;
+}
+
+.navbar-search-btn:hover{
+    background-color:white;
+    color:black;
+}
+
+.navbar-search-btn:active{
+    background-color:gray;
+}
+
+
+
+.navbar-cart:hover{
+    
+}
+
+.navbar-cart-icon {
+    height: 38px;
+    margin-left: 10px;
+    margin-bottom:8px;
+}
+
+.navbar-cart-icon:hover{
+    border:2px solid gray;
+    border-radius:10px;
+}
+/* Конец нав меню*/
+/* Страница Оформить заказ */
+.CheckoutTitle {
+    background: #212529;
+    color: white;
+    padding-bottom: 10px;
+    padding-top: 7px;
+    border-radius: 10px 10px 0px 0px;
+    margin-bottom: 0px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+.CheckoutBody {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.CheckoutBlock {
+    margin-top: 0px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.CheckoutFormLabel{
+    font-size:16pt;
+}
+
+.CheckoutFormTextInput {
+    text-align: left;
+    margin:10px;
+}
+
+.CheckoutFormRadio{
+    font-size:16pt;
+    margin-top:8px;
+}
+
+    .CheckoutFormRadio:checked {
+    border-color:black;
+    background-color:black;
+}
+
+.CheckoutHintImg{
+     width:30px;
+     margin-bottom:3px;
+}
+
+    .CheckoutHintImg:hover:after {
+        content: attr(data-name);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background: rgba(5,13,156,.55);
+        color: #fff;
+        text-align: center;
+        font-family: cursive;
+        font-size: 14px;
+        padding: 3px 0;
+        width: 100%;
+    }
+
+.CheckoutReturnBut {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: black;
+    background-color: white;
+    border-color: black;
+}
+
+.CheckoutReturnBut:hover{
+    font-weight:500;
+    color:black;
+    border-width:3px;
+}
+
+.ChecoutSubmitBut {
+    margin-left:20px;
+
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color:white;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    background-color: #212529;
+    border-color: black;
+}
+
+.CheckoutValidation{
+    text-align:left;
+    font-size:14pt;
+}
+
+/* Конец страницы оформления заказа*/
+
+/* Блок фильтров в каталоге*/
+
+.filterTitle {
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+/* Конец блока фильтров в каталоге*/
+
+.trackPageBody {
+    width: 70%;
+    margin-left: 15%;
+}
+
+.completedText {
+    font-size: 16pt;
+}
+
+.completedTable {
+    text-align: left;
+    font-size: 14pt;
+}
+
+.completedButton {
+    font-size: 14pt;
+}
+
+
+
+
+/* typical phone screen resolution */
+@media only screen and (max-width : 720px) {
+    /* Начало блока главной страницы*/
+    .mainTitleText {
+        line-height:normal;
+        height: 70px;
+        margin: 30px;
+        font-size: 24pt;
+        width: 90%;
+        margin-left: 5%;
+    }
+    .mainNavButton{
+        width:90vw;
+        margin-top:20px;
+        font-size:20pt;
+    }
+    .mainButtons{
+        width:97%;
+        margin-left:3%;
+    }
+
+    .popularPhoto{
+        width:100%;
+        height:50%;
+    }
+
+    .popularCat{
+        
+        min-width:120px;
+    }
+
+    .popularCatTitle{
+        font-size:5vw;
+    }
+
+    .mainBlockMargin{
+        width:95%;
+        margin-left:2.5%;
+    }
+    /* Конец блока Главной страницы*/
+
+    /* Начало блока Каталога */
+    #categoryPageTitle{
+        font-size:30pt;
+    }
+
+    .catalogCategoryPicker {
+        max-width: 100%;
+        margin-bottom:0px;
+    }
+
+    .catalogList{
+        width:100%;
+    }
+
+    .catalogFilterPicker {
+        max-width: 100%;
+    }
+
+    .catalogItem{
+        margin-left:0px;
+        margin-right:0px;
+    }
+
+
+    .catalogPagesAndPagesizes {
+        margin-left: 0px;
+        width: 100%;
+    }
+
+    .pageSizePicker{
+        margin-left:0px;
+    }
+
+    .pageNavigationBlock{
+        margin-left:0px;
+        width:100%;
+    }
+
+    .catalogItemImage{
+        width:35%;
+    }
+
+    .catalogItemPreview{
+        width:100px;
+        height:100px;
+        float:left;
+        margin-right:5px;
+    }
+
+    .catalogItemTitle{
+        font-size:12pt;
+    }
+
+    .catalogItemDescriptionAndPrice {
+        width: 65%;
+    }
+
+    .catalogItemDescription {
+        width: 100%;
+        -webkit-line-clamp: 4;
+        font-size:12pt;
+
+    }
+
+    .catlogItemPriceAndButton{
+        margin-left:0px;
+        width:100%;
+    }
+
+    .catalogItemButton{
+        width:100px;
+        height:40px;
+        font-size:12pt!important;
+        margin-left:0px;
+    }
+
+    .catalogItemPrice {
+        font-size: 14pt;
+        margin-right:0px;
+    }
+
+    .catalogItemForm {
+        display: inline;
+        margin-left: 20px;
+    }
+    /* Конец блока страницы каталога */
+
+    /* Начало блока о нас*/
+
+    #about{
+        padding:0px;
+        max-width:100%;
+        width:95%;
+        margin-left:2.5%;
+        margin-top:10px;
+    }
+
+        #about h1 {
+            font-size: 20pt;
+        }
+
+    .AboutText{
+        font-size:12pt;
+        text-align:left;
+    }
+
+    .BestsImg{
+        width:100px;
+    }
+
+    .EmployeeCard {
+        margin: 5px 0px 5px 0px;
+        padding: 10px 0px 5px 0px;
+        height: 250px;
+    }
+
+        .EmployeeCard img {
+            width: 120px;
+            height: 120px;
+            
+        }
+
+        .EmployeeCard p {
+            font-size: 12pt;
+            font-weight: 500;
+        }
+
+        .EmployeeCard .Position {
+            font-weight: 300;
+        }
+
+    #ContactInfo {
+        text-align: left;
+        font-size: 12pt;
+    }
+
+    #ContactsBlock iframe{
+        width:300px;
+        height:200px;
+    }
+
+    /* Конец блока о нас*/
+
+    /* Нав меню */
+    .navbar-search {
+        width: 300px;
+        display: inline;
+    }
+
+    .navbar-cart-icon{
+        height:50px;
+        margin-left:0px;
+    }
+
+    .navbar-search-btn{
+        margin-top:5px;
+    }
+    /* Конец нав меню*/
+    /* Страница товара */
+    .productPageBody {
+        width: 95%;
+        margin-left: 2.5%;
+        margin-top: 10px;
+    }
+
+    .productPageDescriptionTitle{
+        text-align:center;
+    }
+
+    .productPagePriceAndButton{
+        margin-left:5px;
+    }
+
+    .productPageImage {
+        width: 200px;
+        height:200px;
+        margin-left:20%;
+    }
+
+    .catalogItemPrice{
+        display:inline!important;
+        margin-right:5px;
+    }
+
+    .catalogItemButton{
+        display:inline!important;
+    }
+
+    /* Конец страницы о товаре*/
+
+
+    .trackPageBody{
+        width:95%;
+        margin-left:2.5%;
+        
+    }
+
+    .cartBody{
+        font-size:10pt;
+    }
+
+    .CheckoutFormLabel{
+        font-size:12pt;
+    }
+
+    .CheckoutBody {
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
+    .completedText {
+        font-size: 12pt;
+    }
+
+    .completedTable {
+        font-size: 12pt;
+    }
+
+    .completedButton{
+        font-size:12pt;
+    }
+}
+
+@media only screen and (min-width : 721px) and (max-width : 1919px) {
+
+    .mainTitleText {
+        line-height: normal;
+        height: 70px;
+        margin: 30px;
+        font-size: 3.5vw;
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .mainNavButton {
+        width: 100%;
+        margin-top: 20px;
+        font-size: 20pt;
+    }
+
+    .catalogItemDescriptionAndPrice {
+        width: 60%;
+    }
+
+    .catalogCategoryPicker {
+        width: 250px;
+    }
+
+    .catalogFilterPicker {
+        width: 250px;
+    }
+
+    .EmployeeCard {
+        margin: 5px 0px 5px 0px;
+        padding: 10px 0px 5px 0px;
+        height: 300px;
+    }
+
+    .EmployeeCard img {
+        width: 150px;
+        height: 150px;
+    }
+
+    #about{
+        max-width:90%;
+        margin-left:5%;
+    }
+
+    .navbar-search {
+        width: 70%;
+        display: inline;
+    }
+
+    .productPageImage{
+        width:300px;
+        height:300px;
+    }
+}

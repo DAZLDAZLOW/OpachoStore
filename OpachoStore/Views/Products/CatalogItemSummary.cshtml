@@ -1,0 +1,32 @@
+﻿@using System.Text;
+@model Product
+
+<div class="container">
+    <div class="row row-cols-2">
+        <div class="col catalogItemImage">
+            <img class="catalogItemPreview" src="~/images/@Model.ImageUrl" alt="">
+        </div>
+        <div class="col catalogItemDescriptionAndPrice">
+            <div class="container" style="padding-left:0px;padding-right:0px;">
+                <div class="row">
+                    <a class="catalogItemTitle" asp-area="" asp-route-productId="@Model.ProductID" asp-controller="Products" asp-action="Product">@Model.Title</a>
+                </div>
+                <div class="row">
+                    <p class="catalogItemDescription">@Model.Description</p>
+                </div>
+                <div class="row">
+                    <div class="catlogItemPriceAndButton">
+                        <p class="catalogItemPrice">@Model.GetStringPrice()</p>
+                        <form class="catalogItemForm" id="@Model?.ProductID" asp-page="/Cart" method="post">
+                            <input type="hidden" asp-for="ProductID" />
+                            <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                            <button type="submit" class="btnActive catalogItemButton">
+                                В корзину
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

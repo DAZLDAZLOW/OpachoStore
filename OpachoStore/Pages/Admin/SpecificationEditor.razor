@@ -1,0 +1,89 @@
+﻿@inherits OwningComponentBase<IStoreRepository>
+
+<div class="container" style="padding-left:0px;margin-left:0px;">
+    @foreach (var p in Props)
+    {
+        <div class="row m-2" style="padding-left:0px;margin-left:0px!important;">
+            <div class="col" style="padding-left:0px;margin-left:0px;">
+                <input class="form-control"  type="text" placeholder="Свойство" value="@p.Specification.Title" @oninput="(e) => OnTitleChanged(e,p)" />
+            </div>
+            <div class="col">
+                <input class="form-control" type="text" placeholder="Значение" value="@p.Value" @oninput="(e) => OnValueChanged(e,p)" />
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-secondary" @onclick="(e) =>{ Props.Remove(p);CanSaveProps = true;}">-</button>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-outline-secondary" style="margin-top:5px;" @onclick="() =>{Props.Add(new(){Value = string.Empty, Specification = new(){Title = string.Empty}});}">+</button>
+        </div>
+    </div>
+</div>
+<p class="text-danger">@ErrorMessage</p>
+<button class="btn btn-primary" disabled="@(!CanSaveProps)" @onclick="(e) => {OnPropsClick(e);CanSaveProps = true;}">Применить</button>
+
+@code {
+    public IStoreRepository Repository => Service;
+    [Parameter]
+    public ICollection<Property> Props { get; set; }
+    [Parameter]
+    public Product Product { get; set; }
+    [Parameter]
+    public EventCallback<ICollection<Property>> PropsChanged { get; set; }
+
+    [Parameter]
+    public bool CanSaveProps { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> CanSavePropsChanged { get; set; }
+
+    string ErrorMessage { get; set; } = "";
+
+    protected override void OnParametersSet()
+    {
+        if (Props == null)
+            Props = new List<Property>();
+    }
+
+    private Task OnPropsClick(MouseEventArgs e)
+    {
+        foreach (var p in Props)
+        {
+            if (String.IsNullOrEmpty(p.Specification.Title) || String.IsNullOrEmpty(p.Value))
+            {
+                ErrorMessage = "Заполните все поля";
+                return Task.CompletedTask;
+            }
+            else
+            {
+                ErrorMessage = "";
+            }
+            p.Specification.Title = p.Specification.Title.Trim();
+            p.Value = p.Value.Trim();
+            p.Specification = new()
+                {
+                    SpecificationId = 0,
+                    Title = p.Specification.Title,
+                };
+        }
+        CanSaveProps = false;
+        CanSavePropsChanged.InvokeAsync(CanSaveProps);
+        return PropsChanged.InvokeAsync(Props);
+    }
+
+    private void OnTitleChanged(ChangeEventArgs e, Property prop)
+    {
+        prop.Specification.Title = e.Value.ToString();
+        CanSaveProps = true;
+        CanSavePropsChanged.InvokeAsync(CanSaveProps);
+    }
+
+    private void OnValueChanged(ChangeEventArgs e, Property prop)
+    {
+        prop.Value = e.Value.ToString();
+        CanSaveProps = true;
+        CanSavePropsChanged.InvokeAsync(CanSaveProps);
+    }
+}
